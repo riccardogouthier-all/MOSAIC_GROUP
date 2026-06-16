@@ -1,16 +1,16 @@
 
- Contenuto del documento
+# Contenuto del documento
 Il documento descrive innanzitutto il contesto aziendale: Thema Consulting ha una sede propria a Torino con un piccolo data center già saturo, mentre Pro Studio lavora in cloud e trasferirà il personale nella sede di Thema.
 Viene poi fatta una fotografia dell’assessment dei sistemi attuali: virtualizzazione, storage, backup, firewall, cluster HPC, servizi di posta, office, autenticazione, file server, documentazione e applicazioni proprietarie.
 Infine, il testo definisce vincoli, obiettivi, budget e criteri di valutazione per l’offerta tecnica/economica da presentare.
   
- Punti chiave
-- Business continuity e disaster recovery: servono ridondanza dei sistemi critici, ridondanza della connettività, salvataggi delocalizzati e continuità dei servizi per i clienti.
-- Sicurezza: è richiesta cifratura dei sistemi di memorizzazione, uso di protocolli sicuri e accessi tramite VPN LAN-to-LAN, client-to-LAN e hybrid cloud.
-- Evoluzione HPC: il cluster deve crescere di altri 8 nodi entro 2 anni, con Linux, doppia rete Ethernet e Infiniband, niente VM o container, niente GPU e scratch da 1,6 TB per nodo.
-- Budget: il documento distingue una soluzione on-premise/hosting da 250k + IVA e una soluzione cloud da 220k + IVA.
+# Punti chiave
+- *Business continuity e disaster recovery*: servono ridondanza dei sistemi critici, ridondanza della connettività, salvataggi delocalizzati e continuità dei servizi per i clienti.
+- *Sicurezza*: è richiesta cifratura dei sistemi di memorizzazione, uso di protocolli sicuri e accessi tramite VPN LAN-to-LAN, client-to-LAN e hybrid cloud.
+- *Evoluzione HPC*: il cluster deve crescere di altri 8 nodi entro 2 anni, con Linux, doppia rete Ethernet e Infiniband, niente VM o container, niente GPU e scratch da 1,6 TB per nodo.
+- *Budget*: il documento distingue una soluzione on-premise/hosting da 250k + IVA e una soluzione cloud da 220k + IVA.
 
- 4 soluzioni adeguate
+# 4 soluzioni adeguate
 1. Soluzione ibrida con cluster HPC on-premise e servizi collaborativi in cloud  
    Mantiene il calcolo ad alte prestazioni in sede, dove il cluster può sfruttare Infiniband e hardware dedicato, mentre posta, office, documentazione e collaborazione restano in cloud per ridurre carico sul data center.
 
