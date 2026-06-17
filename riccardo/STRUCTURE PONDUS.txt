@@ -1,0 +1,47 @@
+Dal 2015 erogano per una cerchia ristretta di loro clienti un servizio di ottimizzazione dei 
+pesi  dei  materiali  (Pondus),  indicato  per  la  scelta  di  componenti  speciali  in  ambito 
+automotive (auto sportive) ed aerospace
+
+Applicazione proprietarie:  
+Pondus 
+Web application realizzata in 
+
+C#, erogata da: 
+●  Web server (MS IIS) 
+●  DB server (MS SQL) 
+
+Caratteristiche di entrambi i server (on premise su hw fisico): 
+1 CPU Xeon Silver 4110, 
+64 GB RAM, 
+1,2 TB HDD 
+
+Obiettivi per il futuro 
+●  Potenziamento  dell’applicazione  Pondus  e  distribuzione  della  stessa  ad  un’utenza  più ampia
+
+
+
+
+::BEGINNING TO STUCTURE THE ARCHITECHTURE::
+
+UNDERSTANDING OF PLACEMENT OF APP STOCKS AND COMPONENTS
+MESURE RESOURCES IN A SIGNIFICANT WINDOW
+COMPLIANCE CHECK WITH LICENCES ::SOFTWARE ASSURANCE // WINDOWS SERVER LICENCE::
+IN ORDER TO HAVE A CLEAN AND ORGANISED MIGRATION WE MUST START FROM THE MOST FUNDAMENTAL PARTS OF THE APPLICATION
+	OR THE ONES THAT ARE IMMEDIATLY NECESSARY (AUTHENTICATION, STORAGE, ORGANIZATION OF SCHEDULED JOBS)
+
+::ELEMENTS OF THE ARCHITECHTURE::
+
+--WEB
+
+--DATABASE
+
+--STORAGE
+
+--NETWORK
+
+--AUTHENTICATION AND KEYS
+
+--BACKUP AND CROSS REGION SNAPSHOTS (BONDED TO ISO 27001)
+
+
+
