@@ -1,48 +1,171 @@
-Dal 2015 erogano per una cerchia ristretta di loro clienti un servizio di ottimizzazione dei 
-pesi  dei  materiali  (Pondus),  indicato  per  la  scelta  di  componenti  speciali  in  ambito 
-automotive (auto sportive) ed aerospace
 
-Applicazione proprietarie:  
-Pondus 
-Web application realizzata in 
+::DATA::
+--	Dal 2015 erogano per una cerchia ristretta di loro clienti un servizio di ottimizzazione dei 
+	pesi  dei  materiali  (Pondus),  indicato  per  la  scelta  di  componenti  speciali  in  ambito 
+	automotive (auto sportive) ed aerospace
 
-C#, erogata da: 
-●  Web server (MS IIS) 
-●  DB server (MS SQL) 
+--	Applicazione proprietarie:  
+	Pondus 
+	Web application realizzata in 
 
-Caratteristiche di entrambi i server (on premise su hw fisico): 
-1 CPU Xeon Silver 4110, 
-64 GB RAM, 
-1,2 TB HDD 
+--	C#, erogata da: 
+	●  Web server (MS IIS) 
+	●  DB server (MS SQL) 
 
-Obiettivi per il futuro 
-●  Potenziamento  dell’applicazione  Pondus  e  distribuzione  della  stessa  ad  un’utenza  più ampia
+--	Caratteristiche di entrambi i server (on premise su hw fisico): 
+	1 CPU Xeon Silver 4110, 
+	64 GB RAM, 
+	1,2 TB HDD 
+
+--	Obiettivi per il futuro 
+	●  Potenziamento  dell’applicazione  Pondus  e  distribuzione  della  stessa  ad  un’utenza  più ampia
 
 
-
-
-::BEGINNING TO STUCTURE THE ARCHITECHTURE::
-
-UNDERSTANDING OF PLACEMENT OF APP STOCKS AND COMPONENTS
-MESURE RESOURCES IN A SIGNIFICANT WINDOW
-COMPLIANCE CHECK WITH LICENCES ::SOFTWARE ASSURANCE // WINDOWS SERVER LICENCE::
-IN ORDER TO HAVE A CLEAN AND ORGANISED MIGRATION WE MUST START FROM THE MOST FUNDAMENTAL PARTS OF THE APPLICATION
+::BEGINNING TO STUCTURE THE ARCHITECTURE::
+--	UNDERSTANDING OF PLACEMENT OF APP STOCKS AND COMPONENTS
+--	MESURE RESOURCES IN A SIGNIFICANT WINDOW
+--	COMPLIANCE CHECK WITH LICENCES ::SOFTWARE ASSURANCE // WINDOWS SERVER LICENCE::
+--	IN ORDER TO HAVE A CLEAN AND ORGANISED MIGRATION WE MUST START FROM THE MOST FUNDAMENTAL PARTS OF THE APPLICATION
 	OR THE ONES THAT ARE IMMEDIATLY NECESSARY (AUTHENTICATION, STORAGE, ORGANIZATION OF SCHEDULED JOBS)
 
-::ELEMENTS OF THE ARCHITECHTURE::
+:ELEMENTS OF THE ARCHITECTURE:
+--	WEB
+	SMALL OR MEDIUM EC2 INSTANCES (RUNNING IIS(WEB SERVER MICROSOFT) W AUTO SCALING) BEHIND A LOAD BALANCER
+--	DATABASE
+	AMAZON RDS FOR SQL (BACKUPS AND PATCHING)(LOW EFFORT)
+	IF LICENCES BLOCK RDS RUN SQL SERVER ON ONE OF THE EC2S(HIGHER OPS/COST)
+--	STORAGE
+	EBS GP3 VOLUMES (PHISICAL DISKS DIMENSIONED BY THE TRAFFIC) // THROUGHTPU/IOPS FOR EC2
+	RDS TAKES STORAGE IF USED
+--	NETWORK
+	SINGLE VPC CONNECTED TO PUBLIC SUBNET FOR LOAD BALANCER 
+	PRIVATE SUBNET FOR APP && DATABASE
+	USE SSM TO REDUCE NATA GATEWAY COSTS // UPDATES BEHIND A BASTION
+--	AUTHENTICATION AND KEYS
+	AWS SECRET MANAGER --> DATABASE
+	AMAZON CERTIFICATE MANAGER --> TLS CERTIFICATES (ALB) 
+--	BACKUP 
+	RDS AUTOMATED SNAPSHOTS // SQL SERVER BACKUPS TO S3
+	CROSS REGION SNAPSHOTS (BONDED TO ISO 27001)
 
---WEB
-SMALL OR MEDIUM EC2 INSTANCES (RUNNING IIS(WEB SERVER MICROSOFT) W AUTO SCALING) BEHING A LOAD BALANCER
---DATABASE
-AMAZON RDS FOR SQL (BACKUPS AND PATCHING)(LOW EFFORT)
-IF LICENCES BLOCK RDS RUN SQL SERVER ON ONE OF THE EC2S(HIGHER OPS/COST)
---STORAGE
+:COST REDUCTION:
+--	RDS x meno lavoro operativo: 
+	AWS gestisce il database al posto tuo, quindi fai meno manutenzione, patching e gestione infrastrutturale.
+--	Opzioni di sconto a lungo termine: 
+	per RDS puoi valutare piani dedicati al database, mentre per EC2 puoi usare piani di risparmio per 
+	abbassare il costo se sai che le istanze resteranno attive a lungo.
+--	Ridimensionamento delle istanze: 
+	non usare macchine troppo grandi se il carico reale è basso; meglio partire piccoli e 
+	crescere solo quando serve.
+--	Usa istanze burstable o Graviton quando possibile: 
+	sono spesso più economiche, ma dipende dal tipo di applicazione.
+--	Per Windows e SQL Server c’è un vincolo: 
+	se usi applicazioni .NET su Windows, in genere devi restare su EC2 Windows x86; 
+	se invece porti l’app su .NET Core e Linux, puoi avere più scelta e spesso costi più bassi.
+--	Gestione remota con strumenti centralizzati: 
+	usare sessioni amministrative gestite evita di esporre RDP su Internet e può ridurre anche 
+	costi accessori come IP pubblici o gateway NAT.
 
---NETWORK
 
---AUTHENTICATION AND KEYS
+::MIGRATION PLAN::
+--	MIGRATE DEV/OPS (NON-PRODUCTION LINES) FIRST TO VALIDATE SETUP AND SCRIPTS
+--	MIGRATE DATABASE USING (OPTIONS)
+	BACKUP/RESTORE TO RDS FOR SQL SERVER (HIGHER DOWNTIME / SMALLER DBS) //
+	AWS DATABASE MIGRATION SERVICE + REPLICATE ONGOING CHANGES (NEAR 0 DOWNTIME) //
+	LIFT AND SHIFT WITH EC2 RESTORING A SQL SERVER BACKUP //
+--	DEPLOY AND TEST WEB APP TO WINDOWS EC2
+--	CUTOVER WITH DNS SWITCH AFTER FINAL SYNC
+	ROLLBACK
+	KEEP ON-PREM DB UNTIL VALIDATION
 
---BACKUP AND CROSS REGION SNAPSHOTS (BONDED TO ISO 27001)
+:TOOLS:
+--	AWS DMS X REPLICATION AND MINIMAL DOWNTIME
+--	AWS MIGRATION EVALUATOR // AWS APPLICATION DISCOVERY SERVICE --> ESTIMATE COSTS AN SIZING
+--	AWS LAUNCH WIZARD // AWS WELL-ARCHITECTED --> MICRSOFT WORKLOADS (SIZE AND PATTERNS)
 
+::IMPLEMENTATION::
+:AWS ACCOUNT AND NETWORKING:
+--	Create VPC with at least two private subnets across AZs, one public subnet for ALB; minimal NAT usage (SSM for patching). 
+	Set up security groups and NACLs.
+--	Configure a bastion or use SSM Session Manager for admin access.
 
+:DATABASE:
+--	If RDS: create a parameter group matching required SQL settings, provision appropriate instance class and storage (gp3), 
+	enable automated backups and encryption, and set Multi‑AZ only if budget allows.
+--	If EC2 SQL: launch Windows EC2 matching CPU/RAM needs, attach EBS gp3 volumes sized for IOPS, restore backups, 
+	harden and patch instance.
+--	Migrations: run schema and full backup restore to target, run AWS DMS for CDC until cutover, 
+	validate data (row counts, checksums).
 
+:APPLICATION:
+--	Prepare AMI or Auto Scaling launch template for Windows Server + IIS + .NET runtime; 
+	bake app deployment using Web Deploy or CI/CD (CodeDeploy/third‑party).
+--	Configure ALB with health checks to IIS public endpoint; use ACM cert and HTTPS listener.
+--	Store DB credentials in Secrets Manager and configure app to fetch at boot or via secure config.
+
+:OPERATIONAL:
+--	Logging and monitoring: enable CloudWatch metrics, alarms for CPU, memory (via CloudWatch Agent), disk, DB connections; 
+	centralize IIS logs to CloudWatch Logs or S3.
+--	Backups: verify RDS snapshots or scheduled SQL backups to S3 and test restore.
+--	Security: implement least-privilege IAM roles, enable encryption at rest (RDS/EBS) and in transit (TLS).
+
+:COST CONFIGURATION:
+--	Set Auto Scaling min=1, use scheduled scaling for predictable load windows, and monitor to tune. 
+	Consider Reserved Instances or Savings Plans after stable baseline observed.
+
+::EXAMPLE MINIMAL COST ARCHITECTURE:: 
+--	ALB -> 
+--	1 Windows EC2 (IIS) in private subnet (public through ALB) + 
+--	RDS for SQL Server single‑AZ with gp3 storage, 
+	SSM for admin access, 
+	CloudWatch monitoring, 
+	Secrets Manager for credentials.
+
+================================================================================================================================
+================================================================================================================================
+
+::TYPES OF SCENES::
+
+:SCENE A:	RDS per SQL Server (Database Gestito + EC2 Web)
+--	Architettura consigliata per basso sforzo operativo:
+	RDS SQL Server (gestito, backup automatico, patching) +
+	EC2 Windows (IIS, app C#) +
+	ALB (Application Load Balancer) per traffico web.
+
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+		Componente				|		Configurazione consigliata				|		Costo mensile stimato (On-Demand)
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+EC2 Web (IIS + C#)				|Istanza Windows: m6a.large 					|$200–300/mese (se right-size 32 GB: ~$150)
+								|(2 vCPU, 32 GB RAM)							|
+								|OR right-size da 64 GB se possibile; 			|
+								|se mantieni 64 GB: m6a.2xlarge 				|
+								|(8 vCPU, 128 GB) — troppo;						|
+								|meglio r6a.large 								|
+								|(2 vCPU, 16 GB) — poco RAM. 					|
+								|Per 64 GB: r6a.2xlarge 						|
+								|(8 vCPU, 64 GB) ≈ $250–300/mese 				|
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+RDS SQL Server					|Istanza: db.m6a.large 							|$250–350/mese (single-AZ)
+								|(2 vCPU, 32 GB) — right-size; 					|
+								|storage: 1,2 TB GP3 ≈ 							|
+								|1,200 GB × 0,115 = $138/mese; 					|
+								|instance: ~$120/mese (On-Demand) +				|
+								|licenza SQL Server inclusa 					|
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+ALB (Load Balancer)				|Application Load Balancer (minimo per web)		|$15–25/mese
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+Storage aggiuntivo (EC2)		|100 GB GP3 per sistema EC2						|$10/mese
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+Backup (RDS snapshots)			|1,2 TB backup su S3							|$20–30/mese (incluso in RDS)
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+Data Transfer (out)				|100 GB/mese output web							|$10–15/mese
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+SSM / CloudWatch (monitoring)	|Metriche base + logging						|$5–10/mese
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+TOTALE MENSILE					|												|$500–750/mese
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+
+:Note su risparmi:
+	Con Database Savings Plans ( commitment 1 anno): riduci fino a 35% costo RDS.
+	Con Reserved Instances (RI) per RDS: risparmio fino a 69% per 3 anni.
+	Right-size RAM: se l'app usa ≤32 GB RAM, scendi a ~$400–550/mese.
