@@ -22,7 +22,7 @@
 - *INCREMENTO GRADUALE DELLA POTENZA DI CALCOLO* CHE DEVE TENERE *BASSI I COSTI*, ELASTICITA'
 
 # COSE DA FARE
-- Scegliere uno stack per la produttività (probabilmente Google e stack di destra)
+- Scegliere uno stack per la produttività (probabilmente Google e stack di destra) (*Youssef*, *Cristian*)
 
 - Architetture per Pondus (*Gouthier*)
 
