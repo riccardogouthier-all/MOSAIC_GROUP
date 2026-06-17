@@ -29,3 +29,12 @@
 - Guardare servizi per AWS per HPC (*Pironato*)
 
 - ISO 27001 (*Alessandro*)
+
+# Briefing 1 17/06/2026
+- Non bisogna compilare la ISO ma solo predisporre l'arhitettura per essere compliant
+- AWS ha dei servizi orientati a fare HPC
+- Quando si parla di HPC il calcolo viene diviso e spezzettato, viene poi ricomposto alla fine. Della suddivisione del carico non ci dobbiamo occupare. 
+- Dobbiamo redigere un progetto per convincere il cliente e far si che apprezzi il nostro livello di preparazione. Serve una soluzione che risponde ai suoi requisiti; il livello è un po' più alto
+- Bisogna dimostrare di saper prendere in carico l'azienda
+- Bisogna NON fossilizzarsi su troppi tecnicismi
+- Per l'ambiente di lavoro bisogna fare proposte orientate alle performance e porposte più economicamente conservative
