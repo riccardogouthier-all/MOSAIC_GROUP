@@ -85,13 +85,87 @@
 
 ::IMPLEMENTATION::
 :AWS ACCOUNT AND NETWORKING:
+--	Create VPC with at least two private subnets across AZs, one public subnet for ALB; minimal NAT usage (SSM for patching). 
+	Set up security groups and NACLs.
+--	Configure a bastion or use SSM Session Manager for admin access.
 
 :DATABASE:
+--	If RDS: create a parameter group matching required SQL settings, provision appropriate instance class and storage (gp3), 
+	enable automated backups and encryption, and set Multi‑AZ only if budget allows.
+--	If EC2 SQL: launch Windows EC2 matching CPU/RAM needs, attach EBS gp3 volumes sized for IOPS, restore backups, 
+	harden and patch instance.
+--	Migrations: run schema and full backup restore to target, run AWS DMS for CDC until cutover, 
+	validate data (row counts, checksums).
 
 :APPLICATION:
+--	Prepare AMI or Auto Scaling launch template for Windows Server + IIS + .NET runtime; 
+	bake app deployment using Web Deploy or CI/CD (CodeDeploy/third‑party).
+--	Configure ALB with health checks to IIS public endpoint; use ACM cert and HTTPS listener.
+--	Store DB credentials in Secrets Manager and configure app to fetch at boot or via secure config.
 
 :OPERATIONAL:
+--	Logging and monitoring: enable CloudWatch metrics, alarms for CPU, memory (via CloudWatch Agent), disk, DB connections; 
+	centralize IIS logs to CloudWatch Logs or S3.
+--	Backups: verify RDS snapshots or scheduled SQL backups to S3 and test restore.
+--	Security: implement least-privilege IAM roles, enable encryption at rest (RDS/EBS) and in transit (TLS).
 
 :COST CONFIGURATION:
+--	Set Auto Scaling min=1, use scheduled scaling for predictable load windows, and monitor to tune. 
+	Consider Reserved Instances or Savings Plans after stable baseline observed.
 
+::EXAMPLE MINIMAL COST ARCHITECTURE:: 
+--	ALB -> 
+--	1 Windows EC2 (IIS) in private subnet (public through ALB) + 
+--	RDS for SQL Server single‑AZ with gp3 storage, 
+	SSM for admin access, 
+	CloudWatch monitoring, 
+	Secrets Manager for credentials.
 
+================================================================================================================================
+================================================================================================================================
+
+::TYPES OF SCENES::
+
+:SCENE A:	RDS per SQL Server (Database Gestito + EC2 Web)
+--	Architettura consigliata per basso sforzo operativo:
+	RDS SQL Server (gestito, backup automatico, patching) +
+	EC2 Windows (IIS, app C#) +
+	ALB (Application Load Balancer) per traffico web.
+
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+		Componente				|		Configurazione consigliata				|		Costo mensile stimato (On-Demand)
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+EC2 Web (IIS + C#)				|Istanza Windows: m6a.large 					|$200–300/mese (se right-size 32 GB: ~$150)
+								|(2 vCPU, 32 GB RAM)							|
+								|OR right-size da 64 GB se possibile; 			|
+								|se mantieni 64 GB: m6a.2xlarge 				|
+								|(8 vCPU, 128 GB) — troppo;						|
+								|meglio r6a.large 								|
+								|(2 vCPU, 16 GB) — poco RAM. 					|
+								|Per 64 GB: r6a.2xlarge 						|
+								|(8 vCPU, 64 GB) ≈ $250–300/mese 				|
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+RDS SQL Server					|Istanza: db.m6a.large 							|$250–350/mese (single-AZ)
+								|(2 vCPU, 32 GB) — right-size; 					|
+								|storage: 1,2 TB GP3 ≈ 							|
+								|1,200 GB × 0,115 = $138/mese; 					|
+								|instance: ~$120/mese (On-Demand) +				|
+								|licenza SQL Server inclusa 					|
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+ALB (Load Balancer)				|Application Load Balancer (minimo per web)		|$15–25/mese
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+Storage aggiuntivo (EC2)		|100 GB GP3 per sistema EC2						|$10/mese
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+Backup (RDS snapshots)			|1,2 TB backup su S3							|$20–30/mese (incluso in RDS)
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+Data Transfer (out)				|100 GB/mese output web							|$10–15/mese
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+SSM / CloudWatch (monitoring)	|Metriche base + logging						|$5–10/mese
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+TOTALE MENSILE					|												|$500–750/mese
+--------------------------------|-----------------------------------------------|-----------------------------------------------
+
+:Note su risparmi:
+	Con Database Savings Plans ( commitment 1 anno): riduci fino a 35% costo RDS.
+	Con Reserved Instances (RI) per RDS: risparmio fino a 69% per 3 anni.
+	Right-size RAM: se l'app usa ≤32 GB RAM, scendi a ~$400–550/mese.
