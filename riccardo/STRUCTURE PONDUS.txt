@@ -1,48 +1,97 @@
-Dal 2015 erogano per una cerchia ristretta di loro clienti un servizio di ottimizzazione dei 
-pesi  dei  materiali  (Pondus),  indicato  per  la  scelta  di  componenti  speciali  in  ambito 
-automotive (auto sportive) ed aerospace
 
-Applicazione proprietarie:  
-Pondus 
-Web application realizzata in 
+::DATA::
+--	Dal 2015 erogano per una cerchia ristretta di loro clienti un servizio di ottimizzazione dei 
+	pesi  dei  materiali  (Pondus),  indicato  per  la  scelta  di  componenti  speciali  in  ambito 
+	automotive (auto sportive) ed aerospace
 
-C#, erogata da: 
-●  Web server (MS IIS) 
-●  DB server (MS SQL) 
+--	Applicazione proprietarie:  
+	Pondus 
+	Web application realizzata in 
 
-Caratteristiche di entrambi i server (on premise su hw fisico): 
-1 CPU Xeon Silver 4110, 
-64 GB RAM, 
-1,2 TB HDD 
+--	C#, erogata da: 
+	●  Web server (MS IIS) 
+	●  DB server (MS SQL) 
 
-Obiettivi per il futuro 
-●  Potenziamento  dell’applicazione  Pondus  e  distribuzione  della  stessa  ad  un’utenza  più ampia
+--	Caratteristiche di entrambi i server (on premise su hw fisico): 
+	1 CPU Xeon Silver 4110, 
+	64 GB RAM, 
+	1,2 TB HDD 
+
+--	Obiettivi per il futuro 
+	●  Potenziamento  dell’applicazione  Pondus  e  distribuzione  della  stessa  ad  un’utenza  più ampia
 
 
-
-
-::BEGINNING TO STUCTURE THE ARCHITECHTURE::
-
-UNDERSTANDING OF PLACEMENT OF APP STOCKS AND COMPONENTS
-MESURE RESOURCES IN A SIGNIFICANT WINDOW
-COMPLIANCE CHECK WITH LICENCES ::SOFTWARE ASSURANCE // WINDOWS SERVER LICENCE::
-IN ORDER TO HAVE A CLEAN AND ORGANISED MIGRATION WE MUST START FROM THE MOST FUNDAMENTAL PARTS OF THE APPLICATION
+::BEGINNING TO STUCTURE THE ARCHITECTURE::
+--	UNDERSTANDING OF PLACEMENT OF APP STOCKS AND COMPONENTS
+--	MESURE RESOURCES IN A SIGNIFICANT WINDOW
+--	COMPLIANCE CHECK WITH LICENCES ::SOFTWARE ASSURANCE // WINDOWS SERVER LICENCE::
+--	IN ORDER TO HAVE A CLEAN AND ORGANISED MIGRATION WE MUST START FROM THE MOST FUNDAMENTAL PARTS OF THE APPLICATION
 	OR THE ONES THAT ARE IMMEDIATLY NECESSARY (AUTHENTICATION, STORAGE, ORGANIZATION OF SCHEDULED JOBS)
 
-::ELEMENTS OF THE ARCHITECHTURE::
+:ELEMENTS OF THE ARCHITECTURE:
+--	WEB
+	SMALL OR MEDIUM EC2 INSTANCES (RUNNING IIS(WEB SERVER MICROSOFT) W AUTO SCALING) BEHIND A LOAD BALANCER
+--	DATABASE
+	AMAZON RDS FOR SQL (BACKUPS AND PATCHING)(LOW EFFORT)
+	IF LICENCES BLOCK RDS RUN SQL SERVER ON ONE OF THE EC2S(HIGHER OPS/COST)
+--	STORAGE
+	EBS GP3 VOLUMES (PHISICAL DISKS DIMENSIONED BY THE TRAFFIC) // THROUGHTPU/IOPS FOR EC2
+	RDS TAKES STORAGE IF USED
+--	NETWORK
+	SINGLE VPC CONNECTED TO PUBLIC SUBNET FOR LOAD BALANCER 
+	PRIVATE SUBNET FOR APP && DATABASE
+	USE SSM TO REDUCE NATA GATEWAY COSTS // UPDATES BEHIND A BASTION
+--	AUTHENTICATION AND KEYS
+	AWS SECRET MANAGER --> DATABASE
+	AMAZON CERTIFICATE MANAGER --> TLS CERTIFICATES (ALB) 
+--	BACKUP 
+	RDS AUTOMATED SNAPSHOTS // SQL SERVER BACKUPS TO S3
+	CROSS REGION SNAPSHOTS (BONDED TO ISO 27001)
 
---WEB
-SMALL OR MEDIUM EC2 INSTANCES (RUNNING IIS(WEB SERVER MICROSOFT) W AUTO SCALING) BEHING A LOAD BALANCER
---DATABASE
-AMAZON RDS FOR SQL (BACKUPS AND PATCHING)(LOW EFFORT)
-IF LICENCES BLOCK RDS RUN SQL SERVER ON ONE OF THE EC2S(HIGHER OPS/COST)
---STORAGE
+:COST REDUCTION:
+--	RDS x meno lavoro operativo: 
+	AWS gestisce il database al posto tuo, quindi fai meno manutenzione, patching e gestione infrastrutturale.
+--	Opzioni di sconto a lungo termine: 
+	per RDS puoi valutare piani dedicati al database, mentre per EC2 puoi usare piani di risparmio per 
+	abbassare il costo se sai che le istanze resteranno attive a lungo.
+--	Ridimensionamento delle istanze: 
+	non usare macchine troppo grandi se il carico reale è basso; meglio partire piccoli e 
+	crescere solo quando serve.
+--	Usa istanze burstable o Graviton quando possibile: 
+	sono spesso più economiche, ma dipende dal tipo di applicazione.
+--	Per Windows e SQL Server c’è un vincolo: 
+	se usi applicazioni .NET su Windows, in genere devi restare su EC2 Windows x86; 
+	se invece porti l’app su .NET Core e Linux, puoi avere più scelta e spesso costi più bassi.
+--	Gestione remota con strumenti centralizzati: 
+	usare sessioni amministrative gestite evita di esporre RDP su Internet e può ridurre anche 
+	costi accessori come IP pubblici o gateway NAT.
 
---NETWORK
 
---AUTHENTICATION AND KEYS
+::MIGRATION PLAN::
+--	MIGRATE DEV/OPS (NON-PRODUCTION LINES) FIRST TO VALIDATE SETUP AND SCRIPTS
+--	MIGRATE DATABASE USING (OPTIONS)
+	BACKUP/RESTORE TO RDS FOR SQL SERVER (HIGHER DOWNTIME / SMALLER DBS) //
+	AWS DATABASE MIGRATION SERVICE + REPLICATE ONGOING CHANGES (NEAR 0 DOWNTIME) //
+	LIFT AND SHIFT WITH EC2 RESTORING A SQL SERVER BACKUP //
+--	DEPLOY AND TEST WEB APP TO WINDOWS EC2
+--	CUTOVER WITH DNS SWITCH AFTER FINAL SYNC
+	ROLLBACK
+	KEEP ON-PREM DB UNTIL VALIDATION
 
---BACKUP AND CROSS REGION SNAPSHOTS (BONDED TO ISO 27001)
+:TOOLS:
+--	AWS DMS X REPLICATION AND MINIMAL DOWNTIME
+--	AWS MIGRATION EVALUATOR // AWS APPLICATION DISCOVERY SERVICE --> ESTIMATE COSTS AN SIZING
+--	AWS LAUNCH WIZARD // AWS WELL-ARCHITECTED --> MICRSOFT WORKLOADS (SIZE AND PATTERNS)
 
+::IMPLEMENTATION::
+:AWS ACCOUNT AND NETWORKING:
+
+:DATABASE:
+
+:APPLICATION:
+
+:OPERATIONAL:
+
+:COST CONFIGURATION:
 
 
