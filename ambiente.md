@@ -10,7 +10,7 @@
 5. Sistemi di backup, ridondanza, disaster recovery, ISO
 
 # Possibili strade da esplorare
-- Andamento della domanda di potenza di calcolo
+- Andamento della domanda di potenza di calcolo, come si evolve nel tempo, se hanno degli standard in testa
 
 --> iniziare a validare possibili architetture
 
@@ -24,6 +24,8 @@
 # COSE DA FARE
 - Scegliere uno stack per la produttività (probabilmente Google e stack di destra)
 
-- Architetture per Pondus 
+- Architetture per Pondus (*Gouthier*)
 
-- 
+- Guardare servizi per AWS per HPC (*Pironato*)
+
+- ISO 27001 (*Alessandro*)
