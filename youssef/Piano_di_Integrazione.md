@@ -1,10 +1,3 @@
-# Offerta Tecnica ed Economica: Integrazione IT Themea Consulting × Pro Studio
-
-**Destinatario:** Comitato Direttivo per l'Integrazione M&A
-**Redatto da:** MOSAIC Group — Team di Integrazione IT
-**Versione:** 1.0 (Finale)
-**Data:** 17 giugno 2026
-**Classificazione:** Riservato — Uso Interno
 
 **Strategia selezionata:** Integrazione "Best-of-Breed" SaaS supportata da AWS
 
