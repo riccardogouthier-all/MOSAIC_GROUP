@@ -9,4 +9,4 @@ La domanda cresce e poi rimane stabile per un medio/lungo periodo di tempo?
 Per quali motivi volete un servizio gestito? Se le VM non dovessero essere manutenute da voi in primis sarebbero una possibilità percorribile?
 
 
-4. La soluzione di HPC in Cloud deve essere ridondata?
+4. La soluzione di HPC in Cloud deve essere ridondata? Quanto? Disaster recovery a che livello??
