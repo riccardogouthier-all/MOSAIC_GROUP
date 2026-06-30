@@ -9,9 +9,10 @@
 | | |
 | --- | --- |
 | **Tempi** | 6 mesi (go-live dicembre 2026) |
-| **Costo Anno 1** | ~€147K (setup + abbonamenti) |
-| **Costo annuo** | ~€55K |
+| **Costo Anno 1** | ~€102K (setup + abbonamenti) |
+| **Costo annuo** | ~€35K |
 | **Personale IT** | 1 persona |
+| **Utenti** | ~50 |
 
 **Idea di base:** adottiamo gli strumenti che Pro Studio usa già (Google Workspace + Odoo), spostiamo i dati di Themea su di essi, e usiamo AWS solo per il login unico (SSO) e le poche app legacy. Pro Studio non cambia nulla; Themea passa a strumenti migliori.
 
@@ -86,6 +87,17 @@ Settimane 5-8   → Migrazione dati (posta, file, CRM, contabilità)
 Settimane 9-10  → Cutover identità (login unico attivo)
 Settimane 11-13 → Sistemi rimanenti, pulizia, go-live
 ```
+
+---
+
+## Costi (≈50 utenti)
+
+| | |
+| --- | --- |
+| **Setup una tantum** | ~€67K |
+| **Costo ricorrente** | ~€35K/anno |
+| **Anno 1 (setup + 1° anno)** | ~€102K |
+| **Totale 3 anni** | ~€173K |
 
 ---
 
