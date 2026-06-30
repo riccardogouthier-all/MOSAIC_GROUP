@@ -1,0 +1,175 @@
+<mxfile host="app.diagrams.net" agent="Claude">
+  <diagram name="Infrastruttura HPC AWS" id="hpc-aws-1">
+    <mxGraphModel dx="763" dy="390" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="box_onprem" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#666666;verticalAlign=top;fontSize=15;fontStyle=1;dashed=1;spacingTop=10;align=left;spacingLeft=10;" value="On-premise — cluster esistente" vertex="1">
+          <mxGeometry height="520" width="280" x="40" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n_utenti" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;" value="Utenti / job HPC" vertex="1">
+          <mxGeometry height="55" width="220" x="70" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="n_nodicompute" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;" value="Nodi compute&#xa;8 nodi fisici on-premise&#xa;Infiniband" vertex="1">
+          <mxGeometry height="60" width="220" x="70" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="n_headnode" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#E7157B;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.linux;" value="Head node&#xa;Scheduler Slurm" vertex="1">
+          <mxGeometry height="40" width="40" x="160" y="362" as="geometry" />
+        </mxCell>
+        <mxCell id="n_headnode_lbl" parent="1" style="text;html=1;align=center;fontSize=11;fontStyle=1;" value="Head node / Slurm scheduler (Linux)" vertex="1">
+          <mxGeometry height="30" width="220" x="80" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="n_router" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.router;" value="" vertex="1">
+          <mxGeometry height="40" width="40" x="160" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="n_router_lbl" parent="1" style="text;html=1;align=center;fontSize=11;" value="Router edge / Customer Gateway" vertex="1">
+          <mxGeometry height="25" width="220" x="70" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="n_dx" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.aws_direct_connect;" value="" vertex="1">
+          <mxGeometry height="40" width="40" x="350" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="n_dx_lbl" parent="1" style="text;html=1;align=center;fontSize=10;fontStyle=1;" value="Direct Connect&#xa;(primaria, dedicata)" vertex="1">
+          <mxGeometry height="30" width="100" x="380" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="n_vpn" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.site_to_site_vpn;" value="" vertex="1">
+          <mxGeometry height="40" width="40" x="350" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="n_vpn_lbl" parent="1" style="text;html=1;align=center;fontSize=10;fontStyle=1;" value="Site-to-Site VPN&#xa;(backup ridondante)" vertex="1">
+          <mxGeometry height="30" width="100" x="380" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="n_nota_ridondanza" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;fontSize=10;fontStyle=2;align=center;fontColor=#666666;" value="Ridondanza connettività&#xa;(ISO 27001 - business continuity):&#xa;failover automatico DX → VPN" vertex="1">
+          <mxGeometry height="50" width="140" x="360" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="box_region" parent="1" style="points=[[0,0],[0.25,0],[0.485,0.13],[0.5,0],[1,0],[1,1],[0,1]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=14;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_region;strokeColor=#147EBA;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#147EBA;dashed=0;" value="" vertex="1">
+          <mxGeometry height="800" width="900" x="500" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="box_vpc" parent="box_region" style="points=[[0,0],[0.25,0],[0.485,0.13],[0.5,0],[1,0],[1,1],[0,1]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=1;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_vpc;strokeColor=#248814;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#248814;dashed=0;" value="VPC HPC&#xa;Placement group (cluster)" vertex="1">
+          <mxGeometry height="380" width="820" x="40" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="box_az1" parent="box_vpc" style="points=[[0,0],[0.25,0],[0.485,0.13],[0.5,0],[1,0],[1,1],[0,1]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=11;fontStyle=1;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;strokeColor=#7AA116;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#7AA116;dashed=0;" value="Availability Zone 1" vertex="1">
+          <mxGeometry height="300" width="360" x="30" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="n_pg_1_lbl" parent="box_az1" style="text;html=1;align=center;fontSize=10;fontStyle=1;" value="Auto Scaling&#xa;0 → 8 nodi" vertex="1">
+          <mxGeometry height="34" width="110" x="90" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="n_sg" parent="box_az1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#DD344C;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.security_group;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="320" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n_ec2_1_lbl" parent="box_az1" style="text;html=1;align=center;fontSize=10;fontStyle=1;" value="EC2 Hpc6a/Hpc7a&#xa;Compute node x4 + EFA" vertex="1">
+          <mxGeometry height="34" width="110" x="90" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="box_az2" parent="box_vpc" style="points=[[0,0],[0.25,0],[0.485,0.13],[0.5,0],[1,0],[1,1],[0,1]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=11;fontStyle=1;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;strokeColor=#7AA116;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#7AA116;dashed=1;" value="Availability Zone 2 — failover" vertex="1">
+          <mxGeometry height="300" width="360" x="420" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="n_ec2_2" parent="box_az2" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ec2;" value="" vertex="1">
+          <mxGeometry height="40" width="40" x="40" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n_ec2_2_lbl" parent="box_az2" style="text;html=1;align=center;fontSize=10;fontStyle=1;" value="EC2 Hpc6a/Hpc7a&#xa;Compute node x4 + EFA" vertex="1">
+          <mxGeometry height="34" width="110" x="5" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="n_nota_az2" parent="box_az2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;fontSize=9;fontStyle=2;align=left;fontColor=#666666;" value="Distribuzione su 2 AZ per resilienza,&#xa;da valutare impatto latenza placement group" vertex="1">
+          <mxGeometry height="40" width="170" x="150" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="n_eni" parent="box_vpc" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elastic_network_interface;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="380" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="n_eni_lbl" parent="box_vpc" style="text;html=1;align=center;fontSize=10;fontStyle=1;" value="EFA (Elastic Fabric Adapter) — bus interconnessione nodi" vertex="1">
+          <mxGeometry height="20" width="320" x="250" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="e4b" edge="1" parent="box_vpc" source="n_ec2_1_lbl" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;" target="n_ec2_2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n_fsx" parent="box_region" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#7AA116;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fsx_for_lustre;" value="" vertex="1">
+          <mxGeometry height="50" width="50" x="60" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="n_fsx_lbl" parent="box_region" style="text;html=1;align=center;fontSize=11;fontStyle=1;" value="Amazon FSx for Lustre&#xa;Storage condiviso / scratch&#xa;🔒 cifrato at-rest (KMS)" vertex="1">
+          <mxGeometry height="45" width="160" x="-10" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="n_s3" parent="box_region" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#7AA116;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;" value="" vertex="1">
+          <mxGeometry height="50" width="50" x="260" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="n_s3_lbl" parent="box_region" style="text;html=1;align=center;fontSize=11;fontStyle=1;" value="Amazon S3&#xa;Archiviazione risultati&#xa;🔒 SSE-KMS + versioning" vertex="1">
+          <mxGeometry height="45" width="160" x="205" y="525" as="geometry" />
+        </mxCell>
+        <mxCell id="n_kms" parent="box_region" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#DD344C;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.key_management_service;" value="" vertex="1">
+          <mxGeometry height="36" width="36" x="460" y="478" as="geometry" />
+        </mxCell>
+        <mxCell id="n_kms_lbl" parent="box_region" style="text;html=1;align=center;fontSize=10;fontStyle=1;" value="AWS KMS&#xa;gestione chiavi cifratura" vertex="1">
+          <mxGeometry height="34" width="140" x="410" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="n_cloudwatch" parent="box_region" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#E7157B;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudwatch_2;" value="" vertex="1">
+          <mxGeometry height="36" width="36" x="640" y="478" as="geometry" />
+        </mxCell>
+        <mxCell id="n_cloudwatch_lbl" parent="box_region" style="text;html=1;align=center;fontSize=10;fontStyle=1;" value="CloudWatch&#xa;monitoraggio capacità elastica" vertex="1">
+          <mxGeometry height="34" width="150" x="585" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="box_dr" parent="box_region" style="points=[[0,0],[0.25,0],[0.485,0.13],[0.5,0],[1,0],[1,1],[0,1]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=1;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_region;strokeColor=#9673A6;fillColor=#e1d5e7;verticalAlign=top;align=left;spacingLeft=30;fontColor=#5b1f8c;dashed=1;" value="" vertex="1">
+          <mxGeometry height="170" width="780" x="60" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="box_dr_lbl" parent="box_dr" style="text;html=1;fontSize=12;fontStyle=1;fontColor=#5b1f8c;align=left;" value="AWS Region DR: eu-west-1 (Irlanda)" vertex="1">
+          <mxGeometry height="20" width="320" x="10" y="4" as="geometry" />
+        </mxCell>
+        <mxCell id="n_s3dr" parent="box_dr" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#7AA116;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;" value="" vertex="1">
+          <mxGeometry height="44" width="44" x="58" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="n_s3dr_lbl" parent="box_dr" style="text;html=1;align=center;fontSize=10;fontStyle=1;" value="S3 — Cross-Region Replication&#xa;disaster recovery / delocalizzazione" vertex="1">
+          <mxGeometry height="34" width="160" x="30" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="n_nota_cifratura" parent="box_dr" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;spacing=6;" value="Cifratura: TLS in transito su tutti gli endpoint; KMS at-rest su FSx e S3.&#xa;Accesso amministrativo: VPN Client-to-LAN." vertex="1">
+          <mxGeometry height="80" width="500" x="240" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="box_region_lbl" parent="1" style="text;html=1;fontSize=14;fontStyle=1;fontColor=#147EBA;align=left;" value="AWS Region: Paris" vertex="1">
+          <mxGeometry height="20" width="400" x="540" y="84" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="n_utenti" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" target="n_nodicompute">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="n_nodicompute" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" target="n_headnode">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="n_headnode" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" target="n_dx">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3b" edge="1" parent="1" source="n_headnode" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;" target="n_vpn">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="n_dx" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" target="n_ec2_1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="n_ec2_1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" target="n_fsx">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5b" edge="1" parent="1" source="n_ec2_1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" target="n_fsx">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="n_fsx" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" target="n_s3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="n_s3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;" target="n_s3dr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="n_kms" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;startArrow=block;" target="n_s3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="n_kms" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;startArrow=block;" target="n_fsx">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="FPJH2-awggoY7Gn6_cuB-1" edge="1" parent="1" source="n_vpn" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;" target="n_ec2_1_lbl" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="390" y="310" as="sourcePoint" />
+            <mxPoint x="1000" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n_ec2_1" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ec2;" value="" vertex="1">
+          <mxGeometry height="40" width="40" x="610" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="FPJH2-awggoY7Gn6_cuB-2" edge="1" parent="1" source="n_ec2_2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" target="n_ec2_1" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1000" y="270" as="sourcePoint" />
+            <mxPoint x="585" y="550" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
