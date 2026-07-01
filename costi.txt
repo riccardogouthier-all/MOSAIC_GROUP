@@ -1,0 +1,27 @@
+COSTI SYSTEM INTEGRATION
+
+Costi licenze:
+- Google Workspace Standard 8160 euro annui (50 dipendenti)
+- Odoo Standard 1428 euro annui (10 dipendenti)
+- BitBucket Standard 1920 euro annui (40 dipendenti)
+- MediaWiki FREE hostata su GCP
+
+    Totale: 11.508 + MediaWiki su GCP accesa
+
+Costi administrator:
+- IAM Identity Center FREE
+
+    Totale: 500 euro (UNA TANTUM per configurazione IAM Identity Center su servizi)
+
+Costi migrazione:
+- Profis DEVE rimanere attivo per un tempo di 1 anni per questioni di compliance finanziaria 
+- Restante app (Kimai, Sugar, MediaWiki) non hanno costi di migrazione, solo manodopera
+
+    Totale: 500 + Profis acceso per 1 anno (costi UNA TANTUM)
+
+Backup:
+- Fatto in locale + bucket S3
+
+    Totale: ~100 euro annui, Backup cifrati e ridondati
+
+TOTALE: 12.000 euro annui + ~1500 euro primo anno + MediaWiki su GCP accesa + Profis acceso per 1 anno
