@@ -27,17 +27,38 @@ m6i.4xlarge 16vCPU | 64 GB RAM | 2 istanze | pagamento upfront | Stockholm
 - db.r5.2xlarge 8vCPU | 64 GB RAM | bucket storage gp3 1,2 TB | backup DB 2 TB | Stockholm
 - TOTALE = 2100 * 36 mesi = 75000 $ / 66000 €
 
+# SYSTEM INTEGRATION
 
+*LICENZE*
+- Google Workspace Standard | 8160 euro annui (50 dipendenti)
+- Odoo Standard 1428 euro annui | (10 dipendenti)
+- BitBucket Standard 1920 euro annui | (40 dipendenti)
+- MediaWiki FREE hostata su GCP
+- TOTALE = 11.500 + MediaWiki su GCP accesa
+
+*COSTI ADMINISTRATOR*
+Costi administrator:
+- IAM Identity Center | FREE
+- TOTALE = 0
+
+*COSTI MIGRAZIONE*
+- Profis DEVE rimanere attivo per un tempo di 1 anni per questioni di compliance finanziaria 
+- Restante app (Kimai, Sugar, MediaWiki) non hanno costi di migrazione, solo manodopera
+TOTALE = 0
+
+*BACKUP*
+- Fatto in locale + bucket S3
+TOTALE = ~100 euro annui
 
 
 # TOTALE
 TOTALE HPC = 400000 + 80000 + 20500 = 500500 $ -> 440000 €
 TOTALE PONDUS = 17000 + 75000 = 92000 $ -> 81000 €
+TOTALE SYSTEM = 11500 + 0 + 0 + 100 = 11600 € per anno * 3 anni = 35000 €
 
+
+# TOTALE FINALE
 HPC (saving plans) | 500500 $    | 440000 €  |
 SYSTEM INTEGRATION |  40000 $    |  35000 €  |
 PONDUS             |  92000 $    |  81000 €  |
-
-
-
-TOTALE             | 631.500 $    | 556.000 €  |
+*TOTALE*           | 631.500 $   | 556.000 € |
